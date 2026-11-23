@@ -49,3 +49,55 @@ body {
 
 .boton:hover { transform: translateY(-2px); }
 .boton:focus-visible { outline: 3px solid var(--texto); outline-offset: 3px; }
+h1, h2, h3 { line-height: 1.2; margin: 0 0 16px; }
+h1 { font-size: clamp(2rem, 5vw, 3.2rem); max-width: 16ch; }
+
+.encabezado {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: color-mix(in srgb, var(--fondo) 85%, transparent);
+  backdrop-filter: blur(8px);
+}
+.encabezado-interior {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+.logo { font-weight: 700; font-size: 1.25rem; color: var(--texto); text-decoration: none; }
+.menu { display: flex; gap: 24px; }
+.menu a { color: var(--texto-sec); text-decoration: none; }
+.menu a:hover { color: var(--acento); }
+
+.boton-secundario {
+  background: transparent;
+  color: var(--acento);
+  border: 2px solid var(--acento);
+}
+
+.hero {
+  background: radial-gradient(circle at 85% 20%, color-mix(in srgb, var(--acento) 18%, transparent), transparent 60%);
+}
+.etiqueta { color: var(--acento); font-weight: 600; margin: 0 0 12px; }
+.bajada { color: var(--texto-sec); font-size: 1.15rem; max-width: 48ch; }
+.acciones { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+
+.grilla {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+.tarjeta {
+  background: var(--superficie);
+  border-radius: var(--radio);
+  padding: 24px;
+}
+.precio { color: var(--acento); font-weight: 700; font-size: 1.1rem; margin: 0 0 8px; }
+.nota { color: var(--texto-sec); margin-top: 24px; font-size: 0.95rem; }
+
+@media (max-width: 600px) {
+  .menu { display: none; }
+}
