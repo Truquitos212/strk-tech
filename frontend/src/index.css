@@ -125,3 +125,81 @@ h1 { font-size: clamp(2rem, 5vw, 3.2rem); max-width: 16ch; }
 .hero {
   background: radial-gradient(ellipse closest-side at 70% 50%, color-mix(in srgb, var(--acento) 28%, transparent), transparent);
 }
+/* Paso 5: como funciona, formulario y pie */
+:root { --error: #A3303C; }
+@media (prefers-color-scheme: dark) {
+  :root { --error: #F28B95; }
+}
+
+html { scroll-behavior: smooth; }
+section[id] { scroll-margin-top: 80px; }
+
+.pasos {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 20px;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 760px) {
+  .pasos { grid-template-columns: repeat(3, 1fr); }
+}
+.paso-numero {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--superficie);
+  color: var(--acento);
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.tarjeta-form {
+  background: var(--superficie);
+  border-radius: var(--radio);
+  padding: 24px;
+}
+.form-grilla {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 700px) {
+  .form-grilla { grid-template-columns: repeat(2, 1fr); }
+  .campo-ancho { grid-column: 1 / -1; }
+}
+.campo { display: flex; flex-direction: column; gap: 6px; }
+.campo label { font-weight: 600; }
+.campo input, .campo select, .campo textarea {
+  font: inherit;
+  font-size: 16px;
+  color: var(--texto);
+  background: var(--fondo);
+  border: 1.5px solid color-mix(in srgb, var(--texto-sec) 40%, transparent);
+  border-radius: 12px;
+  padding: 12px 14px;
+  min-height: 44px;
+}
+.campo input:focus-visible, .campo select:focus-visible, .campo textarea:focus-visible {
+  outline: 3px solid var(--acento);
+  outline-offset: 1px;
+  border-color: var(--acento);
+}
+.campo [aria-invalid="true"] { border-color: var(--error); }
+.error { color: var(--error); margin: 0; font-size: 0.9rem; }
+.aviso { color: var(--texto-sec); margin: 0; font-size: 0.9rem; }
+.check { display: flex; gap: 10px; align-items: flex-start; font-weight: 400; }
+.check input { min-height: auto; width: 20px; height: 20px; margin-top: 3px; accent-color: var(--acento); }
+.trampa { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.confirmacion { text-align: center; }
+.confirmacion .boton { margin-top: 16px; }
+button.boton { font: inherit; font-weight: 700; cursor: pointer; }
+
+.pie { margin-top: 48px; background: var(--superficie); }
+.pie-interior { padding-top: 32px; padding-bottom: 32px; color: var(--texto-sec); }
+.pie-interior p { margin: 0 0 8px; }
+.pie a { color: var(--acento); }

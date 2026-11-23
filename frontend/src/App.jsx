@@ -1,11 +1,7 @@
-const WHATSAPP = 'https://wa.me/56961908372?text=Hola%20STRK%20Tech,%20quiero%20cotizar%20un%20servicio'
-
-const servicios = [
-  { titulo: 'Formateo + Windows', precio: 'Desde $25.000', detalle: 'Respaldamos tus archivos, dejamos Windows limpio y los drivers al día.' },
-  { titulo: 'Instalación de Windows', precio: 'Desde $15.000', detalle: 'Para PC recién armados o discos nuevos, sin respaldo.' },
-  { titulo: 'Armado de PC', precio: 'Desde $40.000', detalle: 'Armado con Windows y drivers incluidos. Piezas aparte.' },
-  { titulo: 'Páginas web para negocios', precio: 'Desde $150.000', detalle: 'Reservas, fotos, horarios y automatizaciones. 50% al inicio y 50% al entregar.' },
-]
+import { servicios, WHATSAPP } from './data/servicios.js'
+import ComoFunciona from './components/ComoFunciona.jsx'
+import FormularioPedido from './components/FormularioPedido.jsx'
+import PiePagina from './components/PiePagina.jsx'
 
 function App() {
   return (
@@ -15,6 +11,7 @@ function App() {
           <a href="#" className="logo">STRK Tech</a>
           <nav className="menu">
             <a href="#servicios">Servicios</a>
+            <a href="#como-funciona">Cómo funciona</a>
             <a href="#pedido">Pedir</a>
           </nav>
           <a className="boton boton-secundario" href={WHATSAPP} target="_blank" rel="noopener noreferrer">WhatsApp</a>
@@ -47,7 +44,12 @@ function App() {
           </div>
           <p className="nota">Fuera de Lampa: recargo de $5.000 por el retiro. Páginas web más grandes, a cotizar.</p>
         </section>
+
+        <ComoFunciona />
+        <FormularioPedido />
       </main>
+
+      <PiePagina />
     </>
   )
 }
