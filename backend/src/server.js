@@ -3,18 +3,18 @@ import express from 'express'
 import cors from 'cors'
 import multer from 'multer'
 import rateLimit from 'express-rate-limit'
-import nodemailer from 'nodemailer'
 import { createClient } from '@supabase/supabase-js'
 import { validarPedido } from './validar.js'
+import { enviarCorreo } from './correo.js'
 
-const { PORT = 3000, FRONTEND_URL, SUPABASE_URL, SUPABASE_SECRET_KEY, GMAIL_USER, GMAIL_APP_PASSWORD } = process.env
+const { PORT = 3000, FRONTEND_URL, SUPABASE_URL, SUPABASE_SECRET_KEY, GMAIL_USER } = process.env
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_SECRET_KEY, { auth: { persistSession: false } })
-const correo = nodemailer.createTransport({ service: 'gmail', auth: { user: GMAIL_USER, pass: GMAIL_APP_PASSWORD } })
 const subir = multer({ storage: multer.memoryStorage(), limits: { fileSize: 5 * 1024 * 1024, files: 3 } })
 const limitePedidos = rateLimit({ windowMs: 15 * 60 * 1000, limit: 5, message: { error: 'Demasiados pedidos seguidos. Intenta en 15 minutos.' } })
 
 const app = express()
+app.set('trust proxy', 1)
 app.use(cors({ origin: FRONTEND_URL }))
 app.use(express.json())
 
@@ -71,14 +71,14 @@ app.post('/api/pedidos', limitePedidos, subir.array('fotos', 3), async (req, res
   ].join('\n')
 
   try {
-    await correo.sendMail({
+    await enviarCorreo({
       from: `STRK Tech <${GMAIL_USER}>`,
       to: GMAIL_USER,
       replyTo: pedido.correo,
       subject: `[STRK] Pedido #${num} · ${pedido.servicio} · ${pedido.comuna}`,
       text: detalle,
     })
-    await correo.sendMail({
+    await enviarCorreo({
       from: `STRK Tech <${GMAIL_USER}>`,
       to: pedido.correo,
       subject: `Recibimos tu pedido #${num} · STRK Tech`,
