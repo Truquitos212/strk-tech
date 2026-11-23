@@ -101,3 +101,27 @@ h1 { font-size: clamp(2rem, 5vw, 3.2rem); max-width: 16ch; }
 @media (max-width: 600px) {
   .menu { display: none; }
 }
+/* Ajustes portada v2 */
+.boton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid transparent;
+}
+.boton-secundario { border-color: var(--acento); }
+
+.hero {
+  background: radial-gradient(circle 360px at 80% 35%, color-mix(in srgb, var(--acento) 25%, transparent), transparent);
+}
+
+.grilla { grid-template-columns: 1fr; }
+@media (min-width: 560px) {
+  .grilla { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 960px) {
+  .grilla { grid-template-columns: repeat(4, 1fr); }
+}
+/* Ajustes portada v3 */
+.hero {
+  background: radial-gradient(ellipse closest-side at 70% 50%, color-mix(in srgb, var(--acento) 28%, transparent), transparent);
+}
