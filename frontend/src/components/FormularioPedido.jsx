@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { servicios } from '../data/servicios.js'
 
+const API = import.meta.env.VITE_API_URL
 const vacio = { nombre: '', telefono: '', correo: '', comuna: 'Lampa', direccion: '', servicio: '', descripcion: '', horario: '', acepta: false, sitio: '' }
 const MAX_FOTOS = 3
 const MAX_BYTES = 5 * 1024 * 1024
@@ -36,40 +37,61 @@ function FormularioPedido() {
   const [datos, setDatos] = useState(vacio)
   const [fotos, setFotos] = useState([])
   const [errores, setErrores] = useState({})
-  const [enviado, setEnviado] = useState(false)
+  const [errorGeneral, setErrorGeneral] = useState('')
+  const [enviando, setEnviando] = useState(false)
+  const [numero, setNumero] = useState(null)
 
   const cambiar = (ev) => {
     const { name, value, type, checked } = ev.target
     setDatos({ ...datos, [name]: type === 'checkbox' ? checked : value })
   }
 
-  const enviar = (ev) => {
+  const enviar = async (ev) => {
     ev.preventDefault()
     if (datos.sitio) return
     const encontrados = validar(datos, fotos)
     setErrores(encontrados)
+    setErrorGeneral('')
     if (Object.keys(encontrados).length > 0) return
-    console.log('Pedido listo para enviar:', datos, fotos)
-    setEnviado(true)
+
+    const fd = new FormData()
+    Object.entries(datos).forEach(([k, v]) => fd.append(k, String(v)))
+    fotos.forEach((f) => fd.append('fotos', f))
+
+    setEnviando(true)
+    try {
+      const r = await fetch(API + '/api/pedidos', { method: 'POST', body: fd })
+      const respuesta = await r.json()
+      if (!r.ok) {
+        if (respuesta.errores) setErrores(respuesta.errores)
+        setErrorGeneral(respuesta.error || 'Revisa los campos marcados.')
+        return
+      }
+      setNumero(respuesta.numero)
+    } catch {
+      setErrorGeneral('No pudimos conectar con el servidor. Intenta de nuevo o escríbenos por WhatsApp.')
+    } finally {
+      setEnviando(false)
+    }
   }
 
   const reiniciar = () => {
     setDatos(vacio)
     setFotos([])
     setErrores({})
-    setEnviado(false)
+    setErrorGeneral('')
+    setNumero(null)
   }
 
   const aria = (campo) => ({ 'aria-invalid': errores[campo] ? true : undefined, 'aria-describedby': errores[campo] ? campo + '-error' : undefined })
   const fueraDeLampa = datos.comuna.trim() !== '' && datos.comuna.trim().toLowerCase() !== 'lampa'
 
-  if (enviado) {
+  if (numero) {
     return (
       <section id="pedido" className="contenedor">
         <div className="tarjeta-form confirmacion">
-          <h2>¡Pedido recibido!</h2>
-          <p>Te vamos a contactar al {datos.telefono} para coordinar el retiro.</p>
-          <p className="nota">Prueba: el envío real se conecta en el paso 6.</p>
+          <h2>¡Pedido #{numero} recibido!</h2>
+          <p>Te enviamos la confirmación a {datos.correo} y te vamos a contactar al {datos.telefono} para coordinar el retiro.</p>
           <button type="button" className="boton" onClick={reiniciar}>Hacer otro pedido</button>
         </div>
       </section>
@@ -130,7 +152,8 @@ function FormularioPedido() {
           {errores.acepta && <p className="error" id="acepta-error">{errores.acepta}</p>}
         </div>
         <div className="campo-ancho">
-          <button type="submit" className="boton">Enviar pedido</button>
+          {errorGeneral && <p className="error" role="alert">{errorGeneral}</p>}
+          <button type="submit" className="boton" disabled={enviando}>{enviando ? 'Enviando...' : 'Enviar pedido'}</button>
         </div>
       </form>
     </section>
