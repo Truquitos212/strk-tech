@@ -203,3 +203,12 @@ button.boton { font: inherit; font-weight: 700; cursor: pointer; }
 .pie-interior { padding-top: 32px; padding-bottom: 32px; color: var(--texto-sec); }
 .pie-interior p { margin: 0 0 8px; }
 .pie a { color: var(--acento); }
+/* Paso 8: Kamala en el logo y el hero */
+.logo { display: inline-flex; align-items: center; gap: 10px; }
+.logo-icono { width: 36px; height: 36px; flex-shrink: 0; }
+.hero-interior { display: grid; gap: 32px; align-items: center; }
+.hero-kamala { width: min(300px, 70vw); height: auto; justify-self: center; }
+@media (min-width: 860px) {
+  .hero-interior { grid-template-columns: 1.4fr 1fr; }
+  .hero-kamala { width: 320px; }
+}

@@ -1,4 +1,5 @@
 import { servicios, WHATSAPP } from './data/servicios.js'
+import kamala from './assets/kamala.svg'
 import ComoFunciona from './components/ComoFunciona.jsx'
 import FormularioPedido from './components/FormularioPedido.jsx'
 import PiePagina from './components/PiePagina.jsx'
@@ -8,7 +9,10 @@ function App() {
     <>
       <header className="encabezado">
         <div className="contenedor encabezado-interior">
-          <a href="#" className="logo">STRK Tech</a>
+          <a href="#" className="logo">
+            <img src="/favicon.svg" alt="" width="36" height="36" className="logo-icono" />
+            STRK Tech
+          </a>
           <nav className="menu">
             <a href="#servicios">Servicios</a>
             <a href="#como-funciona">Cómo funciona</a>
@@ -20,14 +24,17 @@ function App() {
 
       <main>
         <section className="hero">
-          <div className="contenedor">
-            <p className="etiqueta">Servicio técnico y páginas web en Lampa</p>
-            <h1>Tu computador como nuevo, sin salir de casa.</h1>
-            <p className="bajada">Retiro gratis en Lampa y entrega en 2 días hábiles. Precios claros desde el inicio.</p>
-            <div className="acciones">
-              <a className="boton" href="#pedido">Pide tu servicio</a>
-              <a className="boton boton-secundario" href="#servicios">Ver servicios</a>
+          <div className="contenedor hero-interior">
+            <div>
+              <p className="etiqueta">Servicio técnico y páginas web en Lampa</p>
+              <h1>Tu computador como nuevo, sin salir de casa.</h1>
+              <p className="bajada">Retiro gratis en Lampa y entrega en 2 días hábiles. Precios claros desde el inicio.</p>
+              <div className="acciones">
+                <a className="boton" href="#pedido">Pide tu servicio</a>
+                <a className="boton boton-secundario" href="#servicios">Ver servicios</a>
+              </div>
             </div>
+            <img src={kamala} alt="Kamala, la mascota de STRK Tech" width="320" height="320" className="hero-kamala" />
           </div>
         </section>
 
